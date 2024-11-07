@@ -1,0 +1,81 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
+}
+.h1 {
+  font-size: 20px;
+  font-weight: 500;
+}
+b {
+  font-weight: 500;
+}
+.home {
+  .login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    .app-logo {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      padding: 5px 5px 10px 5px;
+      color: #b5763e;
+      font-weight: 500;
+      .logo {
+        img {
+          width: 80px;
+          margin-bottom: 5px;
+        }
+      }
+      .app {
+        font-weight: bold;
+      }
+      border-bottom: 2px solid #e06c073d;
+    }
+    .hint {
+      color: #00326e;
+    }
+    .guide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: #00326e;
+      font-weight: 500;
+    }
+    .h1 {
+      color: #0074ff;
+    }
+    .login-qr {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 0px;
+      .qr-code {
+        border-radius: 10px;
+        padding: 12px;
+      }
+    }
+    .login-link {
+      display: flex;
+      gap: 5px;
+      color: #0074ff;
+      font-weight: 500;
+      font-size: 13px;
+      a {
+        text-decoration: none;
+      }
+    }
+  }
+}
