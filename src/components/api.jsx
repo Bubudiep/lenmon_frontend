@@ -113,12 +113,69 @@ const random = (length) => {
   }
   return result;
 };
+const banks = [
+  "Vietcombank",
+  "Vietinbank",
+  "BIDV",
+  "Agribank",
+  "Techcombank",
+  "MB Bank",
+  "ACB",
+  "Sacombank",
+  "VPBank",
+  "TPBank",
+  "Eximbank",
+  "SHB",
+  "VIB",
+  "LienVietPostBank",
+  "SeABank",
+  "OCB",
+  "HSBC",
+  "Standard Chartered",
+  "Citibank",
+  "ANZ",
+  // Thêm các ngân hàng khác nếu cần
+]; // Hàm lấy địa chỉ từ tọa độ
+const getAddress = async (latitude, longitude) => {
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`;
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  try {
+    const data = await gets(url, headers);
+    console.log(data);
+    const { city, town, village, county, state, country } = data.address;
+    return {
+      lat: latitude,
+      long: longitude,
+      city: city || town || village || "",
+      county: county || "",
+      state: state || "",
+      country: country || "",
+      display_name:
+        (data.display_name.split(",").length >= 1 &&
+          data.display_name.split(",")[0]) +
+        ", " +
+        (data.display_name.split(",").length >= 2 &&
+          data.display_name.split(",")[1]) +
+        ", " +
+        (data.display_name.split(",").length >= 3 &&
+          data.display_name.split(",")[2]),
+    };
+  } catch (error) {
+    console.error("Error fetching address:", error);
+    alert("Không thể lấy thông tin địa chỉ từ tọa độ.");
+    return {};
+  }
+};
 // Xuất các phương thức
 export default {
   get,
   gets,
   post,
   patch,
+  banks,
+  getAddress,
   delete: deleteRequest,
   random: random,
 };
