@@ -1,7 +1,6 @@
 import axios from "axios";
-
 const api = axios.create({
-  baseURL: "http://localhost:5005/api", // URL cơ sở cho các yêu cầu
+  baseURL: "http://" + location.hostname + ":5005/api", // URL cơ sở cho các yêu cầu
   // baseURL: "https://ipays.vn/api", // URL cơ sở cho các yêu cầu
 });
 
