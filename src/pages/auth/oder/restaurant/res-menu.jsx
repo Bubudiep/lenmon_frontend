@@ -28,10 +28,10 @@ const Restaurant_menu = ({ store }) => {
                   <option>Ship</option>
                   <option>Tắt</option>
                 </select>
-                <div className="config">
-                  <i className="fa-solid fa-gear"></i>
-                </div>
               </div>
+            </div>
+            <div className="config">
+              <i className="fa-solid fa-gear"></i>
             </div>
           </div>
           <div className="items">
@@ -56,10 +56,10 @@ const Restaurant_menu = ({ store }) => {
                   <option>Ship</option>
                   <option>Tắt</option>
                 </select>
-                <div className="config">
-                  <i className="fa-solid fa-gear"></i>
-                </div>
               </div>
+            </div>
+            <div className="config">
+              <i className="fa-solid fa-gear"></i>
             </div>
           </div>
           <div className="items">
@@ -84,10 +84,10 @@ const Restaurant_menu = ({ store }) => {
                   <option>Ship</option>
                   <option>Tắt</option>
                 </select>
-                <div className="config">
-                  <i className="fa-solid fa-gear"></i>
-                </div>
               </div>
+            </div>
+            <div className="config">
+              <i className="fa-solid fa-gear"></i>
             </div>
           </div>
           <div className="items">
@@ -112,10 +112,10 @@ const Restaurant_menu = ({ store }) => {
                   <option>Ship</option>
                   <option>Tắt</option>
                 </select>
-                <div className="config">
-                  <i className="fa-solid fa-gear"></i>
-                </div>
               </div>
+            </div>
+            <div className="config">
+              <i className="fa-solid fa-gear"></i>
             </div>
           </div>
         </div>

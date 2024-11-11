@@ -106,60 +106,105 @@ b {
 .display-none {
   display: none;
 }
+.homePage {
+  display: flex;
+}
 .store-container {
   display: flex;
   width: 100%;
-  height: 100%;
-  position: absolute;
   gap: 8px;
   overflow: auto;
-  position: absolute;
-  background-color: #f4f5f8;
   .left {
     display: flex;
     flex-direction: column;
     flex: 1;
-    position: relative;
-    .tools-bar {
-      z-index: 11;
-      position: absolute;
-      right: 0;
-      top: 30%;
-      background-color: #fff;
-      border-radius: 8px 0px 0px 8px;
-      padding: 6px 4px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 1px 2px 3px #0003;
-      gap: 2px;
-      .items {
-        .icon {
-          background-color: #e3e3e3;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 50px;
-          height: 50px;
-          color: #999;
-        }
-      }
-    }
+    position: absolute;
+    background-color: #e1e6e9;
     .top-container {
       display: flex;
       position: sticky;
       top: 0;
       background-color: #fff;
       box-shadow: 1px 2px 3px #0003;
-      border-radius: 0px 0px 10px 10px;
+      border-radius: 0px 0px 18px 18px;
       width: 100vw;
       flex-direction: column;
       animation: slideIntop 0.6s forwards;
       z-index: 10;
-      overflow: hidden;
       box-sizing: border-box; /* tránh tràn ra ngoài */
       @media only screen and (min-width: 768px) {
         border-radius: 0px 10px 10px 10px;
+      }
+      .tools-bar {
+        z-index: 11;
+        right: 0;
+        top: 60vh;
+        background-color: #000000;
+        border-radius: 8px;
+        padding: 12px 8px;
+        display: flex;
+        box-shadow: 1px 2px 3px #0003;
+        position: absolute;
+        &.hide {
+          padding: 12px 0px 12px 6px;
+          .list-items {
+            width: 0px;
+          }
+          .bar {
+            padding: 3px 3px 3px 0px !important;
+          }
+        }
+        &.tright {
+          border-radius: 18px 0px 0px 18px;
+          .bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 6px 3px 0px;
+            .this-bar {
+              height: 26px;
+              width: 6px;
+              border-radius: 8px;
+              background-color: #e8f2ff;
+            }
+          }
+        }
+        &.tleft {
+          flex-direction: row-reverse;
+          border-radius: 0px 18px 18px 0px;
+          .bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 3px 3px 6px;
+            .this-bar {
+              height: 26px;
+              width: 6px;
+              border-radius: 8px;
+              background-color: #e8f2ff;
+            }
+          }
+        }
+        .list-items {
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          width: 40px;
+          transition: all 0.3s;
+          overflow: hidden;
+          .items {
+            .icon {
+              background-color: #0083fd;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 40px;
+              height: 36px;
+              color: #fff;
+            }
+          }
+        }
       }
       .top-nav {
         display: flex;
@@ -167,6 +212,7 @@ b {
         align-items: center; /* Giúp căn giữa các phần tử con theo chiều dọc */
         box-sizing: border-box;
         width: -webkit-fill-available;
+        padding: 0px 4px 4px 4px;
         overflow: hidden;
         .right-nav {
           display: flex;
@@ -298,15 +344,17 @@ b {
           box-shadow: 1px 2px 3px #0003;
           display: flex;
           flex-direction: column;
+          overflow: hidden;
           .items {
             display: flex;
             gap: 6px;
-            align-items: center;
             &:not(:last-child) {
-              border-bottom: 1px solid #e0e0e0;
+              border-bottom: 1px solid #b9b9b9;
             }
             .image {
               padding: 4px;
+              align-items: center;
+              display: flex;
               .icon {
                 width: 60px;
                 height: 60px;
@@ -318,6 +366,14 @@ b {
                 }
               }
             }
+            .config {
+              display: flex;
+              margin-left: auto;
+              padding: 0px 8px;
+              color: #87b3d8;
+              align-items: center;
+              background-color: #ebedf0;
+            }
             .options {
               padding: 4px;
               display: flex;
@@ -326,11 +382,11 @@ b {
               width: -webkit-fill-available;
               .name {
                 font-weight: 500;
-                font-size: 14px;
+                font-size: 15px;
               }
               .price {
                 color: orangered;
-                font-size: 13px;
+                font-size: 14px;
               }
               .status {
                 display: flex;
@@ -340,11 +396,7 @@ b {
                   font-size: 13px;
                   border: 1px solid #c2c2c2;
                   border-radius: 6px;
-                }
-                .config {
-                  margin-left: auto;
-                  padding: 0px 4px;
-                  color: #999;
+                  background-color: #fff;
                 }
               }
             }
@@ -455,7 +507,7 @@ b {
         }
       }
       .p-layout {
-        padding: 4px 8px;
+        padding: 2px 16px;
         .layout {
           display: flex;
           gap: 6px;

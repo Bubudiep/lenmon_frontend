@@ -44,7 +44,6 @@ const Restaurant = ({ user, setUser, token, socket }) => {
           <Restaurant_layout store={store} />
           <Restaurant_menu store={store} />
         </div>
-        <Restaurant_tools />
       </div>
       <div className="right-hide"></div>
     </div>

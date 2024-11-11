@@ -1,8 +1,10 @@
 import React from "react";
+import Restaurant_tools from "./res-tools";
 
 const Restaurant_top = ({ store }) => {
   return (
     <div className="top-nav">
+      <Restaurant_tools />
       <div className="left-nav">
         <div className="logo">
           <div className="icon">
