@@ -86,7 +86,9 @@ const Restaurant_menu = ({ store }) => {
           </div>
           <div className="items">
             <div className="image">
-              <img src="#" />
+              <div className="icon">
+                <img src="#" />
+              </div>
             </div>
             <div className="options">
               <div className="name">Tên món</div>
