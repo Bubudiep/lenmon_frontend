@@ -167,6 +167,37 @@ const getAddress = async (latitude, longitude) => {
     return {};
   }
 };
+function resizeImage(img, maxSize) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  let width = img.width;
+  let height = img.height;
+
+  if (width > height) {
+    if (width > maxSize) {
+      height *= maxSize / width;
+      width = maxSize;
+    }
+  } else {
+    if (height > maxSize) {
+      width *= maxSize / height;
+      height = maxSize;
+    }
+  }
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(img, 0, 0, width, height);
+  return canvas.toDataURL("image/png");
+}
+function debounce(func, delay) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+}
 // Xuất các phương thức
 export default {
   get,
@@ -174,6 +205,8 @@ export default {
   post,
   patch,
   banks,
+  debounce,
+  resizeImage,
   getAddress,
   delete: deleteRequest,
   random: random,

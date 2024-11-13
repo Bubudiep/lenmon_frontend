@@ -24,6 +24,7 @@ const Restaurant = ({ user, setUser, token, socket }) => {
         <Restaurant_menu_config
           store={store}
           setStore={setStore}
+          token={token}
           onClose={() => {
             setConfig(false);
           }}
@@ -55,7 +56,7 @@ const Restaurant = ({ user, setUser, token, socket }) => {
             </div>
           </div>
           <Restaurant_layout store={store} />
-          <Restaurant_menu store={store} />
+          <Restaurant_menu store={store} token={token} />
         </div>
       </div>
       <div className="right-hide"></div>
