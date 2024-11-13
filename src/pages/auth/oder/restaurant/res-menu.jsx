@@ -98,9 +98,9 @@ const Restaurant_menu = ({ store, token }) => {
                     </select>
                   </div>
                 </div>
-                <div className="config">
+                {/* <div className="config">
                   <i className="fa-solid fa-gear"></i>
-                </div>
+                </div> */}
               </div>
             ))}
         </div>
