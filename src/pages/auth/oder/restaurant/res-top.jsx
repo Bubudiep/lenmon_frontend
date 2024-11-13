@@ -1,7 +1,7 @@
 import React from "react";
 import Restaurant_tools from "./res-tools";
 
-const Restaurant_top = ({ store }) => {
+const Restaurant_top = ({ store, setConfig }) => {
   return (
     <div className="top-nav">
       <Restaurant_tools />
@@ -22,7 +22,7 @@ const Restaurant_top = ({ store }) => {
       </div>
       <div className="right-nav">
         <div className="tools">
-          <div className="items">
+          <div className="items" onClick={setConfig}>
             <div className="icon">
               <i className="fa-solid fa-bell-concierge"></i>
             </div>
