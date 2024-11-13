@@ -51,6 +51,12 @@ const Restaurant_tools = () => {
       setIsLeft("tright");
     }, 300);
   };
+  const handleFeedback = () => {
+    console.log("Feedback");
+  };
+  const handleChatrom = () => {
+    console.log("Chatroom");
+  };
   return (
     <div
       ref={toolsBarRef}
@@ -72,12 +78,12 @@ const Restaurant_tools = () => {
         <div className="this-bar"></div>
       </div>
       <div className="list-items">
-        <div className="items">
+        <div className="items" onClick={handleFeedback}>
           <div className="icon">
             <i className="fa-solid fa-paper-plane"></i>
           </div>
         </div>
-        <div className="items">
+        <div className="items" onClick={handleChatrom}>
           <div className="icon">
             <i className="fa-solid fa-comments"></i>
           </div>

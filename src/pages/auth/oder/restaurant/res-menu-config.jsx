@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Restaurant from "../restaurant";
 import api from "../../../../components/api";
+import Items_inactive from "./config/items_inactive";
 
 const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
   const [isFadeout, setIsFadeout] = useState(false);
@@ -23,23 +24,27 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
         {
           menu: store.menu[0].id,
           name: null,
+          price: 0,
           group: [groups[0]],
           mark: ["Mới"],
         },
         token
       )
       .then((response) => {
+        const newItem = response;
+        setItems((preItem) => [...preItem, newItem]);
         setStore((prevStore) => ({
           ...prevStore,
           menu: prevStore.menu.map((menu, index) =>
             index === 0
               ? {
-                  items: [response, ...menu.items], // Append the new item to menu items
                   ...menu,
+                  items: [newItem, ...menu.items],
                 }
               : menu
           ),
         }));
+        console.log(newItem);
       })
       .catch((error) => {
         console.log(error);
@@ -54,6 +59,10 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
     const newGroup = prompt("Enter group name:");
     if (newGroup) {
       setGroups([...groups, newGroup]);
+      api.sendNotice("Item Added", {
+        body: "A new item has been successfully added to the menu.",
+        icon: "/path/to/icon.png", // Optional: Path to an icon for the notification
+      });
     }
   };
 
@@ -154,27 +163,6 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
         });
     }
   };
-  const handleActive = (itemId) => {
-    const userConfirmed = confirm("Món này sẽ hiển thị lại trên menu đặt món!");
-    if (userConfirmed) {
-      api
-        .patch(`/res-items/${itemId}/`, { is_active: true }, token)
-        .then((response) => {
-          setStore((prevStore) => ({
-            ...prevStore,
-            menu: prevStore.menu.map((menu) => ({
-              ...menu,
-              items: menu.items.map((item) =>
-                item.id === itemId ? response : item
-              ),
-            })),
-          }));
-        })
-        .catch((error) => {
-          console.error("Error updating item:", error);
-        });
-    }
-  };
   const handleChange = (itemId, field, value) => {
     api
       .patch(`/res-items/${itemId}/`, { [field]: value }, token)
@@ -214,7 +202,6 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
           </div>
           <div className="body-box">
             <div className="main-view-box menu-config">
-              <div className="hint">Bấm vào ảnh để cài đặt chi tiết</div>
               {items
                 .slice() // Create a shallow copy to avoid mutating the original array
                 .sort((a, b) => b.is_active - a.is_active) // Sort active items to the top
@@ -243,7 +230,7 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
                           <input
                             type="text"
                             className="name"
-                            value={item.name}
+                            value={item.name === null ? "" : item.name}
                             onChange={(e) => {
                               const newValue = e.target.value;
                               const newItems = [...items];
@@ -265,7 +252,7 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
                             onChange={(e) => {
                               const newValue = e.target.value;
                               let numericValue =
-                                parseInt(newValue.replaceAll(".", "")) || 0;
+                                parseInt(newValue.replaceAll(".", "")) || "";
                               if (numericValue > 1000000) {
                                 numericValue = 1000000;
                               }
@@ -320,52 +307,11 @@ const Restaurant_menu_config = ({ onClose, store, setStore, token }) => {
                     </div>
                   ) : (
                     <div key={index} className="items inactive">
-                      <div
-                        className="mask"
-                        onClick={() => {
-                          handleActive(item.id);
-                        }}
-                      ></div>
-                      <div className="status-mark">Đã gỡ xuống</div>
-                      <div className="logo">
-                        <label className="img">
-                          <img
-                            src={item.image64_mini || "placeholder-image.png"}
-                            alt="item"
-                            style={{ cursor: "pointer" }}
-                          />
-                        </label>
-                      </div>
-                      <div className="config">
-                        <div className="c-name">
-                          <input
-                            type="text"
-                            className="name"
-                            value={item.name}
-                            placeholder="Tên món"
-                            disabled
-                          />
-                        </div>
-                        <div className="c-name">
-                          <input
-                            type="text"
-                            className="price"
-                            value={item.price.toLocaleString("vi-VN")}
-                            placeholder="Giá"
-                            disabled
-                          />
-                          <div className="init">VNĐ</div>
-                        </div>
-                        <div className="c-group">
-                          <select value={item.group_names[0]} disabled>
-                            {groups.map((group, idx) => (
-                              <option key={idx} value={group}>
-                                {group}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
+                      <Items_inactive
+                        item={item}
+                        setStore={setStore}
+                        token={token}
+                      />
                     </div>
                   )
                 )}

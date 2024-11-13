@@ -56,7 +56,7 @@ const Restaurant = ({ user, setUser, token, socket }) => {
             </div>
           </div>
           <Restaurant_layout store={store} />
-          <Restaurant_menu store={store} token={token} />
+          <Restaurant_menu store={store} token={token} setStore={setStore} />
         </div>
       </div>
       <div className="right-hide"></div>

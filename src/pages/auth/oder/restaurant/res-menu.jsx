@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../../../components/api";
 
-const Restaurant_menu = ({ store, token }) => {
+const Restaurant_menu = ({ store, token, setStore }) => {
   const [groups, setGroups] = useState([]); // Initial group as an example
   const [marks, setMarks] = useState([]); // Initial group as an example
   const [items, setItems] = useState([]);
@@ -43,67 +43,76 @@ const Restaurant_menu = ({ store, token }) => {
     <>
       <div className="th3">Thực đơn</div>
       <div className="res-menu">
-        <div className="menu">
-          {items
-            .slice() // Create a shallow copy to avoid mutating the original array
-            .sort((a, b) => b.is_active - a.is_active) // Sort active items to the top
-            .map((item, index) => (
-              <div key={item.id} className="items">
-                <div className="image">
-                  <div className="icon">
-                    <img src={item.image64_mini} />
+        {items?.length > 0 ? (
+          <div className="menu">
+            {items
+              .slice() // Create a shallow copy to avoid mutating the original array
+              .sort((a, b) => b.is_active - a.is_active) // Sort active items to the top
+              .map((item, index) => (
+                <div key={item.id} className="items">
+                  <div className="image">
+                    <div className="icon">
+                      <img src={item.image64_mini} />
+                    </div>
                   </div>
-                </div>
-                <div className="options">
-                  <div className="name">{item.name}</div>
-                  <div className="price">
-                    {item.price.toLocaleString("vi-VN")}đ
+                  <div className="options">
+                    <div className="name">{item.name ?? "Chưa đặt tên"}</div>
+                    <div className="price">
+                      {item.price.toLocaleString("vi-VN")}đ
+                    </div>
+                    <div className="status">
+                      <select
+                        value={item.is_available}
+                        onChange={(e) => {
+                          const newItems = [...items];
+                          newItems[index].is_available = e.target.value;
+                          setItems(newItems);
+                          handleChange(item.id, "is_available", e.target.value);
+                        }}
+                      >
+                        <option value={false}>Hết</option>
+                        <option value={true}>Còn</option>
+                      </select>
+                      <select
+                        value={item.is_online}
+                        onChange={(e) => {
+                          const newItems = [...items];
+                          newItems[index].is_online = e.target.value;
+                          setItems(newItems);
+                          handleChange(item.id, "is_online", e.target.value);
+                        }}
+                      >
+                        <option value={false}>Tắt</option>
+                        <option value={true}>Online</option>
+                      </select>
+                      <select
+                        value={item.is_ship}
+                        onChange={(e) => {
+                          const newItems = [...items];
+                          newItems[index].is_ship = e.target.value;
+                          setItems(newItems);
+                          handleChange(item.id, "is_ship", e.target.value);
+                        }}
+                      >
+                        <option value={true}>Ship</option>
+                        <option value={false}>Tắt</option>
+                      </select>
+                    </div>
                   </div>
-                  <div className="status">
-                    <select
-                      value={item.is_available}
-                      onChange={(e) => {
-                        const newItems = [...items];
-                        newItems[index].is_available = e.target.value;
-                        setItems(newItems);
-                        handleChange(item.id, "is_available", e.target.value);
-                      }}
-                    >
-                      <option value={false}>Hết</option>
-                      <option value={true}>Còn</option>
-                    </select>
-                    <select
-                      value={item.is_online}
-                      onChange={(e) => {
-                        const newItems = [...items];
-                        newItems[index].is_online = e.target.value;
-                        setItems(newItems);
-                        handleChange(item.id, "is_online", e.target.value);
-                      }}
-                    >
-                      <option value={false}>Tắt</option>
-                      <option value={true}>Online</option>
-                    </select>
-                    <select
-                      value={item.is_ship}
-                      onChange={(e) => {
-                        const newItems = [...items];
-                        newItems[index].is_ship = e.target.value;
-                        setItems(newItems);
-                        handleChange(item.id, "is_ship", e.target.value);
-                      }}
-                    >
-                      <option value={true}>Ship</option>
-                      <option value={false}>Tắt</option>
-                    </select>
-                  </div>
-                </div>
-                {/* <div className="config">
+                  {/* <div className="config">
                   <i className="fa-solid fa-gear"></i>
                 </div> */}
-              </div>
-            ))}
-        </div>
+                </div>
+              ))}
+          </div>
+        ) : (
+          <div className="null">
+            <div className="icon">
+              <i className="fa-solid fa-frog"></i>
+            </div>
+            <div className="mes">Chưa có món nào</div>
+          </div>
+        )}
       </div>
     </>
   );

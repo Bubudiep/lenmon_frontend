@@ -4,7 +4,7 @@ import table from "../../../../assets/icon/table.png";
 const Restaurant_layout = ({ store }) => {
   return (
     <>
-      <div className="th3">Tổng quan</div>
+      <div className="th3">Bản đồ</div>
       <div className="p-layout">
         {store?.layouts.map((layout) => (
           <div key={layout.id} className="layout">

@@ -198,6 +198,28 @@ function debounce(func, delay) {
     }, delay);
   };
 }
+const sendNotice = (title, options) => {
+  if ("Notification" in window) {
+    console.log(Notification.permission);
+    if (Notification.permission === "granted") {
+      new Notification(title, options);
+    }
+    if (Notification.permission === "denied") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification(title, options);
+        }
+      });
+    }
+    if (Notification.permission === "default") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          new Notification(title, options);
+        }
+      });
+    }
+  }
+};
 // Xuất các phương thức
 export default {
   get,
@@ -205,6 +227,7 @@ export default {
   post,
   patch,
   banks,
+  sendNotice,
   debounce,
   resizeImage,
   getAddress,
