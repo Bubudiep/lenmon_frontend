@@ -1296,6 +1296,21 @@ b {
       font-weight: 500;
       font-size: 14px;
     }
+    .title2 {
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 13px;
+      padding: 8px;
+      font-weight: 500;
+      display: flex;
+      gap: 5px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 1px 2px 3px #0003;
+      .tname {
+        font-size: 15px;
+      }
+    }
   }
 }
 button {
@@ -1321,6 +1336,12 @@ button {
       height: 13px;
       border-left-color: #fff;
     }
+  }
+  &.add {
+    padding: 3px 8px;
+    background-color: #0083fd;
+    color: #fff;
+    border: 1px solid #0083fd;
   }
 }
 .fadeOut {

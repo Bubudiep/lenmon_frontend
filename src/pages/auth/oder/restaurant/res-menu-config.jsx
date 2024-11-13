@@ -17,7 +17,12 @@ const Restaurant_menu_config = ({ onClose }) => {
           onClick={handleClose}
         />
         <div className={`view-box ${isFadeout ? "slideOut" : ""}`}>
-          <div className="title">Thực đơn</div>
+          <div className="title2">
+            <div className="tname">Thực đơn</div>
+            <div className="tools">
+              <button className="add">Thêm món</button>
+            </div>
+          </div>
         </div>
       </div>
     </>
