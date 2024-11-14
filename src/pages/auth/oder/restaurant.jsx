@@ -4,9 +4,23 @@ import Restaurant_layout from "./restaurant/res-layout";
 import Restaurant_tools from "./restaurant/res-tools";
 import Restaurant_menu from "./restaurant/res-menu";
 import Restaurant_menu_config from "./restaurant/res-menu-config";
+import Restaurant_menu_report from "./restaurant/res-menu-report";
+import Restaurant_menu_gear from "./restaurant/res-menu-gear";
+import Restaurant_ordering from "./restaurant/tools/res-ordering";
+import Restaurant_chatroom from "./restaurant/tools/res-chat-room";
+import Restaurant_QRcode from "./restaurant/tools/res-QRcode";
 const Restaurant = ({ user, setUser, token, socket }) => {
   const [store, setStore] = useState(user.data[0]);
   const [config, setConfig] = useState(false);
+  const COMPONENT_MAP = {
+    menu: Restaurant_menu_config,
+    report: Restaurant_menu_report,
+    config: Restaurant_menu_gear,
+    Order: Restaurant_ordering,
+    Chatroom: Restaurant_chatroom,
+    QRcode: Restaurant_QRcode,
+  };
+  const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
     console.log(store);
     if (socket) {
@@ -21,13 +35,11 @@ const Restaurant = ({ user, setUser, token, socket }) => {
   return (
     <div className="store-container">
       {config && (
-        <Restaurant_menu_config
+        <ComponentToRender
           store={store}
           setStore={setStore}
           token={token}
-          onClose={() => {
-            setConfig(false);
-          }}
+          onClose={() => setConfig(false)}
         />
       )}
       <div className="left">

@@ -4,7 +4,7 @@ import Restaurant_tools from "./res-tools";
 const Restaurant_top = ({ store, setConfig }) => {
   return (
     <div className="top-nav">
-      <Restaurant_tools />
+      <Restaurant_tools setConfig={setConfig} />
       <div className="left-nav">
         <div className="logo">
           <div className="icon">
@@ -22,17 +22,32 @@ const Restaurant_top = ({ store, setConfig }) => {
       </div>
       <div className="right-nav">
         <div className="tools">
-          <div className="items" onClick={setConfig}>
+          <div
+            className="items"
+            onClick={() => {
+              setConfig("menu");
+            }}
+          >
             <div className="icon">
               <i className="fa-solid fa-bell-concierge"></i>
             </div>
           </div>
-          <div className="items">
+          <div
+            className="items"
+            onClick={() => {
+              setConfig("report");
+            }}
+          >
             <div className="icon">
               <i className="fa-solid fa-chart-simple"></i>
             </div>
           </div>
-          <div className="items">
+          <div
+            className="items"
+            onClick={() => {
+              setConfig("config");
+            }}
+          >
             <div className="icon">
               <i className="fa-solid fa-gears"></i>
             </div>

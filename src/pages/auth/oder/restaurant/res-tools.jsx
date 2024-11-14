@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const Restaurant_tools = () => {
+const Restaurant_tools = ({ setConfig }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [hide, sethide] = useState(false);
@@ -51,11 +51,14 @@ const Restaurant_tools = () => {
       setIsLeft("tright");
     }, 300);
   };
-  const handleFeedback = () => {
-    console.log("Feedback");
+  const handleOrder = () => {
+    setConfig("Order");
   };
   const handleChatrom = () => {
-    console.log("Chatroom");
+    setConfig("Chatroom");
+  };
+  const handleQRcode = () => {
+    setConfig("QRcode");
   };
   return (
     <div
@@ -78,7 +81,7 @@ const Restaurant_tools = () => {
         <div className="this-bar"></div>
       </div>
       <div className="list-items">
-        <div className="items" onClick={handleFeedback}>
+        <div className="items" onClick={handleOrder}>
           <div className="icon">
             <i className="fa-solid fa-paper-plane"></i>
           </div>
@@ -86,6 +89,11 @@ const Restaurant_tools = () => {
         <div className="items" onClick={handleChatrom}>
           <div className="icon">
             <i className="fa-solid fa-comments"></i>
+          </div>
+        </div>
+        <div className="items" onClick={handleQRcode}>
+          <div className="icon">
+            <i className="fa-solid fa-qrcode"></i>
           </div>
         </div>
       </div>
