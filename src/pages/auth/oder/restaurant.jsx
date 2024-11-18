@@ -9,7 +9,9 @@ import Restaurant_menu_gear from "./restaurant/res-menu-gear";
 import Restaurant_ordering from "./restaurant/tools/res-ordering";
 import Restaurant_chatroom from "./restaurant/tools/res-chat-room";
 import Restaurant_QRcode from "./restaurant/tools/res-QRcode";
-const Restaurant = ({ user, setUser, token, socket }) => {
+import _ from "lodash";
+import { io } from "socket.io-client";
+const Restaurant = ({ user, setUser, token }) => {
   const [store, setStore] = useState(user.data[0]);
   const [config, setConfig] = useState(false);
   const COMPONENT_MAP = {
@@ -22,16 +24,26 @@ const Restaurant = ({ user, setUser, token, socket }) => {
   };
   const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
-    console.log(store);
-    if (socket) {
-      socket.on("order-update", (data) => {
-        console.log("Order update received:", data);
+    const newSocket = io("http://" + location.hostname + ":3009", {
+      transports: ["websocket"],
+    });
+    const key = store.sockets[0].QRKey;
+    newSocket.on("connect", () => {
+      console.log("Connected to socket server on port 3009");
+      newSocket.emit("join room", key, (mes) => {
+        console.log(`Joined room with key: ${key}: ${mes}`);
+        newSocket.on("message", (data) => {
+          console.log("Received message:", data);
+        });
       });
-      return () => {
-        socket.off("order-update");
-      };
-    }
-  });
+    });
+    newSocket.on("disconnect", () => {
+      console.log("Disconnected to socket server on port 3009");
+    });
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
   return (
     <div className="store-container">
       {config && (

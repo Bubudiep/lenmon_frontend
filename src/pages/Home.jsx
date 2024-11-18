@@ -46,6 +46,7 @@ function Home() {
                 newSocket.on("message", (data) => {
                   console.log("Received message:", data);
                   if (data.room == key && data.status == "PASS") {
+                    newSocket.disconnect();
                     setToken(data.token);
                     Cookies.set("lenmon_token", data.token, {
                       expires: data.expires_in / 86400,
