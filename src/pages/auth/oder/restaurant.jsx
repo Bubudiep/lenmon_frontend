@@ -35,6 +35,9 @@ const Restaurant = ({ user, setUser, token }) => {
         newSocket.on("message", (data) => {
           console.log("Received message:", data);
         });
+        newSocket.on("private_event", (data) => {
+          console.log("Received message:", data);
+        });
       });
     });
     newSocket.on("disconnect", () => {
