@@ -43,6 +43,52 @@ const Restaurant_menu_gear = ({ onClose, store, setStore, token }) => {
       alert("Trình duyệt của bạn không hỗ trợ Geolocation.");
     }
   };
+  const handleChangeWallpaper = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "wallpaper") {
+      if (files.length > 0) {
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const img = new Image();
+          img.src = reader.result;
+          img.onload = () => {
+            const maxDimension = 500;
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > maxDimension) {
+                height *= maxDimension / width;
+                width = maxDimension;
+              }
+            } else {
+              if (height > maxDimension) {
+                width *= maxDimension / height;
+                height = maxDimension;
+              }
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            const resizedBase64 = canvas.toDataURL("image/png", 0.8);
+            handleStore("wallpaper", resizedBase64);
+            setItem({
+              ...item,
+              wallpaper: resizedBase64,
+            });
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setItem({
+        ...item,
+        [name]: value,
+      });
+    }
+  };
   const handleChangeAvatar = (e) => {
     const { name, value, files } = e.target;
     if (name === "avatar") {
@@ -100,7 +146,30 @@ const Restaurant_menu_gear = ({ onClose, store, setStore, token }) => {
         <div className={`view-box ${isFadeout ? "slideOut" : ""}`}>
           <div className="body-box">
             <div className="main-view-box menu-gear">
-              <div className="gear-avatar">
+              <div
+                className="gear-avatar"
+                style={{
+                  backgroundImage: 'url("' + item?.wallpaper + '")',
+                  backgroundSize: "cover", // Tùy chọn, giúp ảnh phủ kín
+                  backgroundPosition: "center", // Tùy chọn, căn chỉnh vị trí
+                  backgroundRepeat: "no-repeat", // Tùy chọn, tránh lặp lại ảnh
+                }}
+              >
+                <div className="option-avatar">
+                  <input
+                    type="file"
+                    name="wallpaper"
+                    id="wallpaper"
+                    onChange={handleChangeWallpaper}
+                    accept="image/*"
+                    className="display-none"
+                  />
+                  <label className="option-box" htmlFor="wallpaper">
+                    <div className="overlay-box">
+                      <i className="fa-solid fa-camera"></i>
+                    </div>
+                  </label>
+                </div>
                 <input
                   type="file"
                   name="avatar"
@@ -110,9 +179,14 @@ const Restaurant_menu_gear = ({ onClose, store, setStore, token }) => {
                   className="display-none"
                 />
                 {item?.avatar && (
-                  <label className="img" htmlFor="avatar">
-                    <img src={item.avatar} alt="Avatar Preview" />
-                  </label>
+                  <>
+                    <label className="img" htmlFor="avatar">
+                      <img src={item.avatar} alt="Avatar Preview" />
+                      <div className="overlay-box">
+                        <i className="fa-solid fa-camera"></i>
+                      </div>
+                    </label>
+                  </>
                 )}
                 <div className="gear-option">
                   <div className="name">{item?.name}</div>

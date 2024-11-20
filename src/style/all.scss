@@ -1692,12 +1692,31 @@ b {
         }
         .gear-avatar {
           display: flex;
-          padding: 8px;
+          padding: 30px 8px 4px 8px;
           gap: 8px;
           box-shadow: 1px 2px 3px #0003;
           z-index: 1;
           margin-bottom: 6px;
-          img {
+          position: relative;
+          .option-avatar {
+            position: absolute;
+            right: 8px;
+            top: 5px;
+            .option-box {
+              background-color: #ffffff7c;
+              width: 25px;
+              height: 25px;
+              font-size: 13px;
+              border-radius: 6px;
+              color: #030e24f8;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 1px 2px 3px #00000096 inset;
+            }
+          }
+          .img {
+            position: relative;
             width: 80px;
             height: 80px;
             border-radius: 16px;
@@ -1705,6 +1724,24 @@ b {
             background-color: #00326e;
             border: 2px solid #fff;
             box-shadow: 1px 2px 3px #0003;
+            .overlay-box {
+              width: 100%;
+              height: 100%;
+              position: absolute;
+              top: 0;
+              left: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: rgba(0, 0, 0, 0.199);
+              color: rgba(255, 255, 255, 0.836);
+            }
+          }
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            overflow: hidden;
           }
           .gear-option {
             display: flex;
@@ -1713,8 +1750,8 @@ b {
             gap: 5px;
             font-size: 13px;
             i {
-              font-size: 15px;
-              color: #999;
+              font-size: 18px;
+              color: #000000;
             }
             input {
               width: -webkit-fill-available;
@@ -1734,6 +1771,17 @@ b {
             .name {
               font-size: 15px;
               font-weight: 500;
+              text-shadow:
+                2px 2px 10px #ffffffc2,
+                -2px 1px 10px #ffffffc2,
+                1px -2px 10px #ffffffc2,
+                -2px -2px 10px #ffffffc2;
+            }
+            input {
+              background-color: #ffffff63;
+              border-radius: 5px;
+              border-bottom: hidden;
+              padding: 8px 8px;
             }
             .phone {
               display: flex;
@@ -1744,6 +1792,10 @@ b {
               display: flex;
               align-items: center;
               gap: 6px;
+              button {
+                border: hidden;
+                box-shadow: 1px 2px 3px #0003;
+              }
             }
           }
         }

@@ -30,13 +30,13 @@ function Home() {
           if (key) {
             const qrValue = response.link + "&key=" + key;
             setQrCodeValue(qrValue);
-            // const newSocket = io("http://" + location.hostname + ":3009", {
-            //   transports: ["websocket"],
-            // });
-            const newSocket = io("https://ipays.vn", {
-              path: "/socket.io",
+            const newSocket = io("http://" + location.hostname + ":3009", {
               transports: ["websocket"],
             });
+            // const newSocket = io("https://ipays.vn", {
+            //   path: "/socket.io",
+            //   transports: ["websocket"],
+            // });
             setSocket(newSocket);
             newSocket.on("connect", () => {
               console.log("Connected to socket server on port 3009");
