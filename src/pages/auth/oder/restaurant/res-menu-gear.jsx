@@ -43,6 +43,53 @@ const Restaurant_menu_gear = ({ onClose, store, setStore, token }) => {
       alert("Trình duyệt của bạn không hỗ trợ Geolocation.");
     }
   };
+  const handleChangeAvatar = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "avatar") {
+      // Nếu người dùng chọn file ảnh, tạo URL tạm thời cho ảnh
+      if (files.length > 0) {
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const img = new Image();
+          img.src = reader.result;
+          img.onload = () => {
+            const maxDimension = 250;
+            let width = img.width;
+            let height = img.height;
+            if (width > height) {
+              if (width > maxDimension) {
+                height *= maxDimension / width;
+                width = maxDimension;
+              }
+            } else {
+              if (height > maxDimension) {
+                width *= maxDimension / height;
+                height = maxDimension;
+              }
+            }
+            const canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+            const resizedBase64 = canvas.toDataURL("image/png", 0.8);
+            handleStore("avatar", resizedBase64);
+            setItem({
+              ...item,
+              avatar: resizedBase64,
+            });
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setItem({
+        ...item,
+        [name]: value,
+      });
+    }
+  };
   return (
     <>
       <div className="bg-full">
@@ -54,9 +101,19 @@ const Restaurant_menu_gear = ({ onClose, store, setStore, token }) => {
           <div className="body-box">
             <div className="main-view-box menu-gear">
               <div className="gear-avatar">
-                <div className="img">
-                  <img src={item?.avatar} />
-                </div>
+                <input
+                  type="file"
+                  name="avatar"
+                  id="avatar"
+                  onChange={handleChangeAvatar}
+                  accept="image/*"
+                  className="display-none"
+                />
+                {item?.avatar && (
+                  <label className="img" htmlFor="avatar">
+                    <img src={item.avatar} alt="Avatar Preview" />
+                  </label>
+                )}
                 <div className="gear-option">
                   <div className="name">{item?.name}</div>
                   <div className="phone">
