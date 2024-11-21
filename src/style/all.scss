@@ -404,6 +404,21 @@ b {
               flex-direction: column;
               gap: 2px;
               width: -webkit-fill-available;
+              position: relative;
+              .status2 {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+                padding: 2px 5px;
+                font-size: 12px;
+                border-radius: 0px 0px 0px 8px;
+                color: #fff;
+                background-color: #252424;
+                &.active {
+                  background-color: transparent;
+                  color: #59c501;
+                }
+              }
               .name {
                 font-weight: 500;
                 font-size: 15px;
@@ -415,6 +430,13 @@ b {
               .status {
                 display: flex;
                 gap: 4px;
+                .wait {
+                  background-color: #a7b7c0;
+                  font-size: 12px;
+                  border-radius: 6px;
+                  color: #fff;
+                  padding: 2px 6px;
+                }
                 select {
                   padding: 4px 6px;
                   font-size: 13px;

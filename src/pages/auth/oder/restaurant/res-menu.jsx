@@ -56,47 +56,70 @@ const Restaurant_menu = ({ store, token, setStore }) => {
                     </div>
                   </div>
                   <div className="options">
+                    <div
+                      className={`status2 ${item?.is_validate ? "active" : ""}`}
+                    >
+                      {item?.is_validate ? (
+                        <i className="fa-solid fa-circle-check"></i>
+                      ) : (
+                        <>Chờ duyệt</>
+                      )}
+                    </div>
                     <div className="name">{item.name ?? "Chưa đặt tên"}</div>
                     <div className="price">
                       {item.price.toLocaleString("vi-VN")}đ
                     </div>
                     <div className="status">
-                      <select
-                        value={item.is_available}
-                        onChange={(e) => {
-                          const newItems = [...items];
-                          newItems[index].is_available = e.target.value;
-                          setItems(newItems);
-                          handleChange(item.id, "is_available", e.target.value);
-                        }}
-                      >
-                        <option value={false}>Hết</option>
-                        <option value={true}>Còn</option>
-                      </select>
-                      <select
-                        value={item.is_online}
-                        onChange={(e) => {
-                          const newItems = [...items];
-                          newItems[index].is_online = e.target.value;
-                          setItems(newItems);
-                          handleChange(item.id, "is_online", e.target.value);
-                        }}
-                      >
-                        <option value={false}>Tắt</option>
-                        <option value={true}>Online</option>
-                      </select>
-                      <select
-                        value={item.is_ship}
-                        onChange={(e) => {
-                          const newItems = [...items];
-                          newItems[index].is_ship = e.target.value;
-                          setItems(newItems);
-                          handleChange(item.id, "is_ship", e.target.value);
-                        }}
-                      >
-                        <option value={true}>Ship</option>
-                        <option value={false}>Tắt</option>
-                      </select>
+                      {item?.is_validate ? (
+                        <>
+                          <select
+                            value={item.is_available}
+                            onChange={(e) => {
+                              const newItems = [...items];
+                              newItems[index].is_available = e.target.value;
+                              setItems(newItems);
+                              handleChange(
+                                item.id,
+                                "is_available",
+                                e.target.value
+                              );
+                            }}
+                          >
+                            <option value={false}>Hết</option>
+                            <option value={true}>Còn</option>
+                          </select>
+                          <select
+                            value={item.is_online}
+                            onChange={(e) => {
+                              const newItems = [...items];
+                              newItems[index].is_online = e.target.value;
+                              setItems(newItems);
+                              handleChange(
+                                item.id,
+                                "is_online",
+                                e.target.value
+                              );
+                            }}
+                          >
+                            <option value={false}>Tắt</option>
+                            <option value={true}>Online</option>
+                          </select>
+                          <select
+                            value={item.is_ship}
+                            onChange={(e) => {
+                              const newItems = [...items];
+                              newItems[index].is_ship = e.target.value;
+                              setItems(newItems);
+                              handleChange(item.id, "is_ship", e.target.value);
+                            }}
+                          >
+                            <option value={true}>Ship</option>
+                            <option value={false}>Tắt</option>
+                          </select>
+                        </>
+                      ) : (
+                        <div className="wait">Chưa online</div>
+                      )}
                     </div>
                   </div>
                   {/* <div className="config">
