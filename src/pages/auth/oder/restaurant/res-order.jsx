@@ -59,9 +59,11 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
         // Cập nhật store
         setStore((prevStore) => ({
           ...prevStore,
-          orders: prevStore.orders.map((preoder) =>
-            preoder.id === res.data.id ? { ...preoder, ...res.data } : preoder
-          ),
+          orders: prevStore.orders
+            .map((preoder) =>
+              preoder.id === res.data.id ? { ...preoder, ...res.data } : preoder
+            )
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)),
         }));
       })
       .catch((err) => {
@@ -90,9 +92,11 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
       .then((res) => {
         setStore((prevStore) => ({
           ...prevStore,
-          orders: prevStore.orders.map((preoder) =>
-            preoder.id === res.data.id ? { ...preoder, ...res.data } : preoder
-          ),
+          orders: prevStore.orders
+            .map((preoder) =>
+              preoder.id === res.data.id ? { ...preoder, ...res.data } : preoder
+            )
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)),
         }));
         if (donban) {
           api
@@ -121,10 +125,14 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
       .then((res) => {
         setStore((prevStore) => ({
           ...prevStore, // Giữ nguyên các thuộc tính khác
-          orders: prevStore.orders.map(
-            (preoder) =>
-              preoder.id === res.data.id ? { ...preoder, ...res.data } : preoder // Cập nhật order nếu ID khớp
-          ),
+          orders: prevStore.orders
+            .map(
+              (preoder) =>
+                preoder.id === res.data.id
+                  ? { ...preoder, ...res.data }
+                  : preoder // Cập nhật order nếu ID khớp
+            )
+            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at)),
         }));
       });
   };
@@ -371,7 +379,7 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                           Thu tiền
                         </button>
                       )}
-                      {order.space && order.is_inuse == true && (
+                      {order.space && order.is_inuse == "True" && (
                         <button
                           className="btn btn-cancel"
                           onClick={() => handleThutien(order, true)}

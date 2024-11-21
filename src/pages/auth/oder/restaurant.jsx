@@ -71,7 +71,7 @@ const Restaurant = ({ user, setUser, token }) => {
                             ? { ...preoder, ...data.data.data } // Cập nhật nếu ID trùng
                             : preoder // Giữ nguyên nếu ID không trùng
                       )
-                    : [...prevStore.orders, data.data.data], // Thêm mới nếu ID không trùng
+                    : [data.data.data, ...prevStore.orders], // Thêm mới vào đầu nếu ID không trùng
                 }));
               })
               .catch((er) => {
