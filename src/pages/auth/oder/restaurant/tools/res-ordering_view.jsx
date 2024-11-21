@@ -29,10 +29,12 @@ const Restaurant_ordering_view = ({ option }) => {
                 <div className="list-items">
                   <table>
                     <thead>
-                      <th>STT</th>
-                      <th>Ảnh</th>
-                      <th>Tên</th>
-                      <th>SL</th>
+                      <tr>
+                        <th>STT</th>
+                        <th>Ảnh</th>
+                        <th>Tên</th>
+                        <th>SL</th>
+                      </tr>
                     </thead>
                     <tbody>
                       <tr>

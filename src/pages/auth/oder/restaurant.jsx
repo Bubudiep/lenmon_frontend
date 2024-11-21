@@ -11,9 +11,12 @@ import Restaurant_chatroom from "./restaurant/tools/res-chat-room";
 import Restaurant_QRcode from "./restaurant/tools/res-QRcode";
 import _ from "lodash";
 import { io } from "socket.io-client";
+import api from "../../../components/api";
+import Restaurant_order from "./restaurant/res-order";
 const Restaurant = ({ user, setUser, token }) => {
   const [store, setStore] = useState(user.data[0]);
   const [config, setConfig] = useState(false);
+  const [tabs, setTabs] = useState("dashboard");
   const COMPONENT_MAP = {
     menu: Restaurant_menu_config,
     report: Restaurant_menu_report,
@@ -21,6 +24,24 @@ const Restaurant = ({ user, setUser, token }) => {
     Order: Restaurant_ordering,
     Chatroom: Restaurant_chatroom,
     QRcode: Restaurant_QRcode,
+  };
+  const updateStore = (data) => {
+    setStore((prevStore) => {
+      const updatedStore = { ...prevStore };
+      updatedStore.layouts = updatedStore.layouts.map((layout) => {
+        layout.groups = layout.groups.map((group) => {
+          group.spaces = group.spaces.map((space) => {
+            if (space.id === data.id) {
+              return { ...space, ...data }; // Cập nhật dữ liệu mới
+            }
+            return space; // Trả về space không thay đổi
+          });
+          return group; // Trả về group đã được cập nhật
+        });
+        return layout; // Trả về layout đã được cập nhật
+      });
+      return updatedStore; // Cập nhật state store
+    });
   };
   const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
@@ -34,9 +55,47 @@ const Restaurant = ({ user, setUser, token }) => {
         console.log(`Joined room with key: ${key}: ${mes}`);
         newSocket.on("message", (data) => {
           console.log("Received message:", data);
+          if (data.data.type == "order" && data.data.data.space) {
+            api
+              .get(`/restaurant-space/${data.data.data.space}/`, token)
+              .then((res) => {
+                updateStore(res);
+                setStore((prevStore) => ({
+                  ...prevStore, // Giữ nguyên các thuộc tính khác
+                  orders: prevStore.orders.some(
+                    (preoder) => preoder.id === data.data.data.id
+                  )
+                    ? prevStore.orders.map(
+                        (preoder) =>
+                          preoder.id === data.data.data.id
+                            ? { ...preoder, ...data.data.data } // Cập nhật nếu ID trùng
+                            : preoder // Giữ nguyên nếu ID không trùng
+                      )
+                    : [...prevStore.orders, data.data.data], // Thêm mới nếu ID không trùng
+                }));
+              })
+              .catch((er) => {
+                console.log(er);
+              })
+              .finally(() => {});
+          } else {
+            setStore((prevStore) => ({
+              ...prevStore, // Giữ nguyên các thuộc tính khác
+              orders: prevStore.orders.some(
+                (preoder) => preoder.id === data.data.data.id
+              )
+                ? prevStore.orders.map(
+                    (preoder) =>
+                      preoder.id === data.data.data.id
+                        ? { ...preoder, ...data.data.data } // Cập nhật nếu ID trùng
+                        : preoder // Giữ nguyên nếu ID không trùng
+                  )
+                : [...prevStore.orders, data.data.data], // Thêm mới nếu ID không trùng
+            }));
+          }
         });
         newSocket.on("private_event", (data) => {
-          console.log("Received message:", data);
+          console.log("Private message:", data);
         });
       });
     });
@@ -59,31 +118,31 @@ const Restaurant = ({ user, setUser, token }) => {
       )}
       <div className="left">
         <div className="top-container">
-          <Restaurant_top store={store} setConfig={setConfig} />
+          <Restaurant_top
+            setTabs={setTabs}
+            tabs={tabs}
+            store={store}
+            setConfig={setConfig}
+          />
         </div>
         <div className="body-container">
-          <div className="db-box">
-            <div className="action-tab">
-              <div className="items">
-                <div className="name">Đang dùng</div>
-                <div className="icon">00</div>
-              </div>
-              <div className="items">
-                <div className="name">Đang chờ</div>
-                <div className="icon">00</div>
-              </div>
-              <div className="items">
-                <div className="name">Đang ship</div>
-                <div className="icon">00</div>
-              </div>
-              <div className="items">
-                <div className="name">Hoàn thành</div>
-                <div className="icon">00</div>
-              </div>
-            </div>
-          </div>
-          <Restaurant_layout store={store} />
-          <Restaurant_menu store={store} token={token} setStore={setStore} />
+          {tabs === "dashboard" ? (
+            <Restaurant_layout store={store} />
+          ) : tabs === "menu" ? (
+            <Restaurant_menu
+              store={store}
+              updateStore={updateStore}
+              token={token}
+              setStore={setStore}
+            />
+          ) : (
+            <Restaurant_order
+              store={store}
+              updateStore={updateStore}
+              token={token}
+              setStore={setStore}
+            />
+          )}
         </div>
       </div>
       <div className="right-hide"></div>

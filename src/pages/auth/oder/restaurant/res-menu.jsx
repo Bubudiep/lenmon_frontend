@@ -41,8 +41,7 @@ const Restaurant_menu = ({ store, token, setStore }) => {
   }, [store]);
   return (
     <>
-      <div className="th3">Thực đơn</div>
-      <div className="res-menu">
+      <div className="res-menu slide-top">
         {items?.length > 0 ? (
           <div className="menu">
             {items
@@ -60,7 +59,9 @@ const Restaurant_menu = ({ store, token, setStore }) => {
                       className={`status2 ${item?.is_validate ? "active" : ""}`}
                     >
                       {item?.is_validate ? (
-                        <i className="fa-solid fa-circle-check"></i>
+                        <>
+                          <i className="fa-solid fa-circle-check"></i>
+                        </>
                       ) : (
                         <>Chờ duyệt</>
                       )}

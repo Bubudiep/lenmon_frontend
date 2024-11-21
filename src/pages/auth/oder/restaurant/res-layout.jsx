@@ -4,8 +4,7 @@ import table from "../../../../assets/icon/table.png";
 const Restaurant_layout = ({ store }) => {
   return (
     <>
-      <div className="th3">Bản đồ</div>
-      <div className="p-layout">
+      <div className="p-layout slide-top">
         {store?.layouts.map((layout) => (
           <div key={layout.id} className="layout">
             {layout.groups.map((group) => (
@@ -15,9 +14,22 @@ const Restaurant_layout = ({ store }) => {
                 </div>
                 <div className="room-layout">
                   {group.spaces.map((space) => (
-                    <div key={space.id} className="table">
+                    <div
+                      key={space.id}
+                      className={`table ${
+                        space.is_ordering
+                          ? "oder"
+                          : space.is_inuse
+                            ? "inuse"
+                            : ""
+                      }`}
+                    >
                       <div className="status">
-                        {space.is_ordering ? "Đã đặt" : "Trống"}
+                        {space.is_ordering
+                          ? "Đã đặt trước"
+                          : space.is_inuse
+                            ? "Đang dùng"
+                            : "Trống"}
                       </div>
                       <div className="icon">
                         <img src={table} alt="Table Icon" />

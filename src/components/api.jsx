@@ -220,6 +220,25 @@ const sendNotice = (title, options) => {
     }
   }
 };
+function timeSinceOrder(createdAt) {
+  const orderDate = new Date(createdAt); // Convert order.created_at to a Date object
+  const now = new Date(); // Get the current time
+  const diffMs = now - orderDate; // Difference in milliseconds
+
+  const diffMinutes = Math.floor(diffMs / (1000 * 60)); // Difference in minutes
+
+  if (diffMinutes < 60) {
+    return `${diffMinutes} phút trước`;
+  }
+
+  const diffHours = Math.floor(diffMinutes / 60); // Difference in hours
+  if (diffHours < 24) {
+    return `${diffHours} giờ trước`;
+  }
+
+  const diffDays = Math.floor(diffHours / 24); // Difference in days
+  return `${diffDays} ngày trước`;
+}
 // Xuất các phương thức
 export default {
   get,
@@ -228,6 +247,7 @@ export default {
   patch,
   banks,
   sendNotice,
+  timeSinceOrder,
   debounce,
   resizeImage,
   getAddress,
