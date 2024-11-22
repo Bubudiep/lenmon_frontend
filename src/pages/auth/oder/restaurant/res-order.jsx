@@ -150,7 +150,7 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
             className={`items ${currentTab === tab.value ? "active" : ""}`}
             onClick={() => setCurrentTab(tab.value)}
           >
-            {tab.label} ({countByStatus(tab.value)})
+            {tab.label} <div className="count">{countByStatus(tab.value)}</div>
           </div>
         ))}
       </div>
