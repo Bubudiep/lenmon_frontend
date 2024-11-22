@@ -47,16 +47,19 @@ const Restaurant = ({ user, setUser, token }) => {
   };
   const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
-    const newSocket = io("http://" + location.hostname + ":3009", {
-      transports: ["websocket"],
-    });
-    // const newSocket = io("https://ipays.vn", {
-    //   path: "/socket.io",
+    // const newSocket = io("http://" + location.hostname + ":3009", {
     //   transports: ["websocket"],
     //   auth: {
     //     token: token,
     //   },
     // });
+    const newSocket = io("https://ipays.vn", {
+      path: "/socket.io",
+      transports: ["websocket"],
+      auth: {
+        token: token,
+      },
+    });
     const key = store.sockets[0].QRKey;
     newSocket.on("connect", () => {
       console.log("Connected to socket server on port 3009");
