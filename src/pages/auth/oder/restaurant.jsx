@@ -45,7 +45,11 @@ const Restaurant = ({ user, setUser, token }) => {
   };
   const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
-    const newSocket = io("http://" + location.hostname + ":3009", {
+    // const newSocket = io("http://" + location.hostname + ":3009", {
+    //   transports: ["websocket"],
+    // });
+    const newSocket = io("https://ipays.vn", {
+      path: "/socket.io",
       transports: ["websocket"],
     });
     const key = store.sockets[0].QRKey;

@@ -379,14 +379,23 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                           Thu tiền
                         </button>
                       )}
-                      {order.space && order.is_inuse == "True" && (
-                        <button
-                          className="btn btn-cancel"
-                          onClick={() => handleThutien(order, true)}
-                        >
-                          Thu tiền và dọn bàn
-                        </button>
-                      )}
+                      {order.space &&
+                        order.is_clear == false &&
+                        (order.status == "COMPLETE" ? (
+                          <button
+                            className="btn btn-cancel"
+                            onClick={() => handleThutien(order, true)}
+                          >
+                            Dọn bàn
+                          </button>
+                        ) : (
+                          <button
+                            className="btn btn-cancel"
+                            onClick={() => handleThutien(order, true)}
+                          >
+                            Thu tiền và dọn bàn
+                          </button>
+                        ))}
                     </div>
                   </>
                 )}
