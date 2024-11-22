@@ -9,6 +9,7 @@ import Restaurant_menu_gear from "./restaurant/res-menu-gear";
 import Restaurant_ordering from "./restaurant/tools/res-ordering";
 import Restaurant_chatroom from "./restaurant/tools/res-chat-room";
 import Restaurant_QRcode from "./restaurant/tools/res-QRcode";
+import alert_mp3 from "../../../assets/alert.wav";
 import _ from "lodash";
 import { io } from "socket.io-client";
 import api from "../../../components/api";
@@ -16,6 +17,7 @@ import Restaurant_order from "./restaurant/res-order";
 const Restaurant = ({ user, setUser, token }) => {
   const [store, setStore] = useState(user.data[0]);
   const [config, setConfig] = useState(false);
+  const [newOrder, setNewOrder] = useState(false);
   const [tabs, setTabs] = useState("dashboard");
   const COMPONENT_MAP = {
     menu: Restaurant_menu_config,
@@ -63,6 +65,21 @@ const Restaurant = ({ user, setUser, token }) => {
         newSocket.on("message", (data) => {
           console.log("Received message:", data);
           if (data.data.type == "order" && data.data.data.space) {
+            if (data.data.action == "create") {
+              setNewOrder(true);
+              const audio = new Audio(alert_mp3);
+              audio.volume = 1;
+              audio.loop = true; // Kích hoạt lặp lại
+              audio.play().catch((error) => {
+                console.error("Không thể phát âm thanh:", error);
+              });
+              const stopAudio = () => {
+                audio.pause(); // Dừng phát âm thanh
+                audio.currentTime = 0; // Đặt lại thời gian về đầu
+                window.removeEventListener("click", stopAudio); // Gỡ sự kiện để tránh lặp lại
+              };
+              window.addEventListener("click", stopAudio); // Gắn sự kiện click
+            }
             api
               .get(`/restaurant-space/${data.data.data.space}/`, token)
               .then((res) => {
@@ -130,6 +147,8 @@ const Restaurant = ({ user, setUser, token }) => {
             tabs={tabs}
             store={store}
             setConfig={setConfig}
+            newOrder={newOrder}
+            setNewOrder={setNewOrder}
           />
         </div>
         <div className="body-container">

@@ -1,7 +1,14 @@
 import React from "react";
 import Restaurant_tools from "./res-tools";
 
-const Restaurant_top = ({ tabs, store, setConfig, setTabs }) => {
+const Restaurant_top = ({
+  tabs,
+  store,
+  setConfig,
+  setTabs,
+  newOrder,
+  setNewOrder,
+}) => {
   console.log(store);
   return (
     <>
@@ -94,6 +101,7 @@ const Restaurant_top = ({ tabs, store, setConfig, setTabs }) => {
         <div
           className={`items ${tabs === "dashboard" ? "active" : ""}`}
           onClick={() => {
+            setNewOrder(false);
             setTabs("dashboard");
           }}
         >
@@ -102,22 +110,25 @@ const Restaurant_top = ({ tabs, store, setConfig, setTabs }) => {
         <div
           className={`items ${tabs === "order" ? "active" : ""}`}
           onClick={() => {
+            setNewOrder(false);
             setTabs("order");
           }}
         >
-          Đơn hàng (
-          {
-            store.orders.filter((item) =>
-              ["DELIVERED", "CREATED", "RECEIVED", "SHIPPING"].includes(
-                item.status
-              )
-            ).length
-          }
-          )
+          Đơn hàng{" "}
+          <div className={`qty ${newOrder ? "active" : ""}`}>
+            {
+              store.orders.filter((item) =>
+                ["DELIVERED", "CREATED", "RECEIVED", "SHIPPING"].includes(
+                  item.status
+                )
+              ).length
+            }
+          </div>
         </div>
         <div
           className={`items ${tabs === "menu" ? "active" : ""}`}
           onClick={() => {
+            setNewOrder(false);
             setTabs("menu");
           }}
         >
