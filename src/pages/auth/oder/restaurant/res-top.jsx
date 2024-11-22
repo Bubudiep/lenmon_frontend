@@ -2,6 +2,7 @@ import React from "react";
 import Restaurant_tools from "./res-tools";
 
 const Restaurant_top = ({ tabs, store, setConfig, setTabs }) => {
+  console.log(store);
   return (
     <>
       <div className="top-nav">
@@ -104,7 +105,15 @@ const Restaurant_top = ({ tabs, store, setConfig, setTabs }) => {
             setTabs("order");
           }}
         >
-          Đơn hàng
+          Đơn hàng (
+          {
+            store.orders.filter((item) =>
+              ["DELIVERED", "CREATED", "RECEIVED", "SHIPPING"].includes(
+                item.status
+              )
+            ).length
+          }
+          )
         </div>
         <div
           className={`items ${tabs === "menu" ? "active" : ""}`}

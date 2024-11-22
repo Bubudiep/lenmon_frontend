@@ -6,7 +6,8 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
   const [selectedItems, setSelectedItems] = useState({});
   const statusGroups = {
     CREATED_RECEIVED_SHIPPING: ["CREATED", "RECEIVED", "SHIPPING"], // Đang giao
-    DELIVERED_COMPLETE: ["DELIVERED", "COMPLETE"], // Hoàn tất
+    DELIVERED: ["DELIVERED"], // Hoàn tất
+    COMPLETE: ["COMPLETE"], // Hoàn tất
     CANCEL: ["CANCEL"], // Đã hủy
   };
   const toggleItemSelection = (orderId, itemId) => {
@@ -139,8 +140,9 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
     <>
       <div className="top-nav-items">
         {[
-          { label: "Chưa xong", value: "CREATED_RECEIVED_SHIPPING" },
-          { label: "Đã giao", value: "DELIVERED_COMPLETE" },
+          { label: "Chờ", value: "CREATED_RECEIVED_SHIPPING" },
+          { label: "Chưa thu", value: "DELIVERED" },
+          { label: "Xong", value: "COMPLETE" },
           { label: "Hủy", value: "CANCEL" },
         ].map((tab) => (
           <div
