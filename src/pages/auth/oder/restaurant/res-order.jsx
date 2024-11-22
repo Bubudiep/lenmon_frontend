@@ -2,11 +2,10 @@ import React, { useEffect, useState } from "react";
 import api from "../../../../components/api";
 
 const Restaurant_order = ({ store, token, setStore, updateStore }) => {
-  const [currentTab, setCurrentTab] = useState("CREATED"); // Trạng thái tab hiện tại
+  const [currentTab, setCurrentTab] = useState("CREATED_RECEIVED_SHIPPING"); // Trạng thái tab hiện tại
   const [selectedItems, setSelectedItems] = useState({});
   const statusGroups = {
-    CREATED: ["CREATED"], // Chờ xác nhận
-    RECEIVED_SHIPPING: ["RECEIVED", "SHIPPING"], // Đang giao
+    CREATED_RECEIVED_SHIPPING: ["CREATED", "RECEIVED", "SHIPPING"], // Đang giao
     DELIVERED_COMPLETE: ["DELIVERED", "COMPLETE"], // Hoàn tất
     CANCEL: ["CANCEL"], // Đã hủy
   };
@@ -140,8 +139,7 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
     <>
       <div className="top-nav-items">
         {[
-          { label: "Chờ", value: "CREATED" },
-          { label: "Đang chờ", value: "RECEIVED_SHIPPING" },
+          { label: "Chưa xong", value: "CREATED_RECEIVED_SHIPPING" },
           { label: "Đã giao", value: "DELIVERED_COMPLETE" },
           { label: "Hủy", value: "CANCEL" },
         ].map((tab) => (
