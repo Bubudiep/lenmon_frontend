@@ -36,6 +36,9 @@ function Home() {
             const newSocket = io("https://ipays.vn", {
               path: "/socket.io",
               transports: ["websocket"],
+              auth: {
+                token: token,
+              },
             });
             setSocket(newSocket);
             newSocket.on("connect", () => {

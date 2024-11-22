@@ -51,6 +51,9 @@ const Restaurant = ({ user, setUser, token }) => {
     const newSocket = io("https://ipays.vn", {
       path: "/socket.io",
       transports: ["websocket"],
+      auth: {
+        token: token,
+      },
     });
     const key = store.sockets[0].QRKey;
     newSocket.on("connect", () => {
