@@ -106,6 +106,21 @@ const Restaurant = ({ user, setUser, token }) => {
               })
               .finally(() => {});
           } else {
+            if (data.data.action == "create" || data.data.action == "paid") {
+              setNewOrder(true);
+              const audio = new Audio(alert_mp3);
+              audio.volume = 1;
+              audio.loop = true; // Kích hoạt lặp lại
+              audio.play().catch((error) => {
+                console.error("Không thể phát âm thanh:", error);
+              });
+              const stopAudio = () => {
+                audio.pause(); // Dừng phát âm thanh
+                audio.currentTime = 0; // Đặt lại thời gian về đầu
+                window.removeEventListener("click", stopAudio); // Gỡ sự kiện để tránh lặp lại
+              };
+              window.addEventListener("click", stopAudio); // Gắn sự kiện click
+            }
             setStore((prevStore) => ({
               ...prevStore, // Giữ nguyên các thuộc tính khác
               orders: prevStore.orders.some(
