@@ -47,19 +47,19 @@ const Restaurant = ({ user, setUser, token }) => {
   };
   const ComponentToRender = COMPONENT_MAP[config] || null;
   useEffect(() => {
-    // const newSocket = io("http://" + location.hostname + ":3009", {
-    //   transports: ["websocket"],
-    //   auth: {
-    //     token: token,
-    //   },
-    // });
-    const newSocket = io("https://ipays.vn", {
-      path: "/socket.io",
+    const newSocket = io("http://" + location.hostname + ":3009", {
       transports: ["websocket"],
       auth: {
         token: token,
       },
     });
+    // const newSocket = io("https://ipays.vn", {
+    //   path: "/socket.io",
+    //   transports: ["websocket"],
+    //   auth: {
+    //     token: token,
+    //   },
+    // });
     const key = store.sockets[0].QRKey;
     newSocket.on("connect", () => {
       console.log("Connected to socket server on port 3009");
@@ -68,7 +68,7 @@ const Restaurant = ({ user, setUser, token }) => {
         newSocket.on("message", (data) => {
           console.log("Received message:", data);
           if (data.data.type == "order" && data.data.data.space) {
-            if (data.data.action == "create") {
+            if (data.data.action == "create" || data.data.action == "paid") {
               setNewOrder(true);
               const audio = new Audio(alert_mp3);
               audio.volume = 1;

@@ -103,6 +103,7 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
             .get(`/restaurant-space/${order.space}/`, token)
             .then((res) => updateStore(res))
             .catch((er) => {
+              alert(er?.Error);
               console.log(er);
             })
             .finally(() => {});
@@ -234,7 +235,17 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                       >
                         Nhận đơn
                       </button>
-                      <button className="btn btn-cancel">Bỏ</button>
+                      {order.is_paid && (
+                        <button
+                          className="btn btn-earned"
+                          onClick={() => {
+                            handleThutien(order);
+                          }}
+                        >
+                          Đã nhận tiền
+                        </button>
+                      )}
+                      <button className="btn btn-cancel">Không nhận</button>
                     </div>
                   </>
                 )}
@@ -325,7 +336,7 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                                 {item.status === "DONE" ? (
                                   <i className="fa-regular fa-circle-check"></i>
                                 ) : (
-                                  <i className="fa-solid fa-circle-xmark"></i>
+                                  <i className="fa-solid fa-xmark"></i>
                                 )}
                               </td>
                               <td>{item.name}</td>
@@ -371,6 +382,13 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                         <button className="btn btn-complete">
                           Đã thu tiền
                         </button>
+                      ) : order.is_paid ? (
+                        <button
+                          className="btn btn-accept"
+                          onClick={() => handleThutien(order, false)}
+                        >
+                          Đã nhận
+                        </button>
                       ) : (
                         <button
                           className="btn btn-accept"
@@ -387,6 +405,13 @@ const Restaurant_order = ({ store, token, setStore, updateStore }) => {
                             onClick={() => handleThutien(order, true)}
                           >
                             Dọn bàn
+                          </button>
+                        ) : order.is_paid ? (
+                          <button
+                            className="btn btn-cancel"
+                            onClick={() => handleThutien(order, true)}
+                          >
+                            Đã nhận và dọn bàn
                           </button>
                         ) : (
                           <button
